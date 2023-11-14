@@ -4,7 +4,6 @@ namespace KatmanliBurger_DATA.Concretes
 {
     public class BurgerGarnitureMapping:BaseEntity
     {
-       
         public int BurgerId { get; set; }
         public int GarnitureId { get; set; }
 

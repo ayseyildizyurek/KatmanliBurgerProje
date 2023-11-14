@@ -1,12 +1,7 @@
 ﻿using KatmanliBurger_DAL.Abstracts;
 using KatmanliBurger_DATA.Abstracts;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KatmanliBurger_DAL.Concretes.EntityFramework
 {
@@ -60,7 +55,7 @@ namespace KatmanliBurger_DAL.Concretes.EntityFramework
         {
             using (TContext context = new TContext())
             {
-                return context.Set<TEntity>().Where(x=>ids.Contains(x.Id)).ToList();
+                return context.Set<TEntity>().Where(x => ids.Contains(x.Id)).ToList();
             }
         }
 
@@ -68,8 +63,7 @@ namespace KatmanliBurger_DAL.Concretes.EntityFramework
         {
             using (TContext context = new TContext())
             {
-                var updatedEntity = context.Entry(entity);
-                updatedEntity.State = EntityState.Modified;
+                context.Set<TEntity>().Update(entity);
                 context.SaveChanges();
             }
         }
