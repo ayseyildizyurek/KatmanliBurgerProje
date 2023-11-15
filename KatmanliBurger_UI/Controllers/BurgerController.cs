@@ -66,7 +66,7 @@ namespace KatmanliBurger_UI.Controllers
             burger.Name = model.Name;
             burger.Price= model.Price;
             burger.Description = model.Description;
-            _burgerService.Update(model);
+            _burgerService.Update(burger);
 
             var mappings = _burgerGarnitureMappingDal.GetByBurgerId(id);
 

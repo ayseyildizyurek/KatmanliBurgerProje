@@ -4,5 +4,6 @@ namespace KatmanliBurger_DAL.Abstracts
 {
     public interface IByProductDal:IBaseDal<ByProduct>
     {
-    }
+	
+	}
 }
