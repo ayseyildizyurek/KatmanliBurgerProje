@@ -1,7 +1,6 @@
 ﻿using KatmanliBurger_DAL.Abstracts;
 using KatmanliBurger_DATA.Concretes;
 using KatmanliBurger_SERVICE.Services.BurgerServices;
-using KatmanliBurger_SERVICE.Services.GarnitureServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KatmanliBurger_UI.Controllers

@@ -3,7 +3,10 @@ using KatmanliBurger_DAL.Concretes.EntityFramework;
 using KatmanliBurger_DAL.Contexts;
 using KatmanliBurger_SERVICE.Services.BurgerGarnitureMappingServices;
 using KatmanliBurger_SERVICE.Services.BurgerServices;
+using KatmanliBurger_SERVICE.Services.ByProductServices;
+using KatmanliBurger_SERVICE.Services.CategoryServices;
 using KatmanliBurger_SERVICE.Services.GarnitureServices;
+using KatmanliBurger_SERVICE.Services.MenuServices;
 
 namespace KatmanliBurger_UI
 {
@@ -18,6 +21,17 @@ namespace KatmanliBurger_UI
 
             builder.Services.AddDbContext<BurgerDbContext>();
             builder.Services.AddScoped<IBurgerService, BurgerManager>();
+            builder.Services.AddScoped<IMenuService, MenuManager>();
+            builder.Services.AddScoped<IMenuDal, EfMenuDal>();
+
+            builder.Services.AddScoped<IByProductDal, EfByProductDal>();
+            builder.Services.AddScoped<IByProductService, ByProductManager>();
+
+            builder.Services.AddScoped<ICategoryDal, EfCategoryDal>();
+            builder.Services.AddScoped<ICategoryService, CategoryManager>();
+
+
+
             builder.Services.AddScoped<IBurgerDal, EfBurgerDal>();
             builder.Services.AddScoped<IGarnitureDal, EfGarnitureDal>();
             builder.Services.AddScoped<IGarnitureService, GarnitureManager>();
