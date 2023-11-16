@@ -1,9 +1,10 @@
 ﻿using KatmanliBurger_DATA.Concretes;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace KatmanliBurger_DAL.Contexts
 {
-    public class BurgerDbContext:DbContext
+    public class BurgerDbContext:IdentityDbContext<AppUser, AppRole, string>
     {
         public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<Burger> Burgers { get; set; }

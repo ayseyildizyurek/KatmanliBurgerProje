@@ -11,8 +11,7 @@ namespace KatmanliBurger_DAL.Concretes.EntityFramework
         {
             using (TContext context = new TContext())
             {
-                var addedEntity = context.Entry(entity);
-                addedEntity.State = EntityState.Added;
+               context.Set<TEntity>().Add(entity);
                 context.SaveChanges();
             }
         }
@@ -21,9 +20,8 @@ namespace KatmanliBurger_DAL.Concretes.EntityFramework
         {
             using (TContext context = new TContext())
             {
-                var deletedEntity = context.Entry(entity);
-                deletedEntity.State = EntityState.Modified;
-                context.SaveChanges();
+				context.Set<TEntity>().Update(entity);
+				context.SaveChanges();
             }
         }
 

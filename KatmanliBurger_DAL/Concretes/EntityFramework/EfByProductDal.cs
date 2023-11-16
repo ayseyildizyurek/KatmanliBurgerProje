@@ -6,5 +6,6 @@ namespace KatmanliBurger_DAL.Concretes.EntityFramework
 {
     public class EfByProductDal : EfBaseDal<ByProduct, BurgerDbContext>, IByProductDal
     {
-    }
+		
+	}
 }
