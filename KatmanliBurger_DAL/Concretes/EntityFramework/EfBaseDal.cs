@@ -1,5 +1,6 @@
-﻿using KatmanliBurger_DAL.Abstracts;
+﻿using KatmanliBurger_DAL.Abstracts.Base;
 using KatmanliBurger_DATA.Abstracts;
+using KatmanliBurger_DATA.Concretes;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -18,12 +19,22 @@ namespace KatmanliBurger_DAL.Concretes.EntityFramework
 
         public void Delete(TEntity entity)
         {
-            using (TContext context = new TContext())
-            {
-				context.Set<TEntity>().Update(entity);
-				context.SaveChanges();
-            }
-        }
+			using (TContext context = new TContext())
+			{
+				if (entity is BurgerGarnitureMapping)
+				{
+					context.Remove(entity);
+					context.SaveChanges();
+				}
+				else
+				{
+					var addedEntity = context.Entry(entity);
+					addedEntity.State = EntityState.Modified;
+					context.SaveChanges();
+				}
+
+			}
+		}
 
         public TEntity Get(Expression<Func<TEntity, bool>> expression)
         {

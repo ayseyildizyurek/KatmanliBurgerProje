@@ -4,17 +4,20 @@ using KatmanliBurger_DAL.Contexts;
 using KatmanliBurger_DATA.Concretes;
 using KatmanliBurger_SERVICE.Services.BasketServices;
 using KatmanliBurger_SERVICE.Services.BurgerGarnitureMappingServices;
+using KatmanliBurger_SERVICE.Services.BurgerMenuMappingServices;
 using KatmanliBurger_SERVICE.Services.BurgerOrderMappingServices;
 using KatmanliBurger_SERVICE.Services.BurgerServices;
 using KatmanliBurger_SERVICE.Services.ByProductServices;
 using KatmanliBurger_SERVICE.Services.CategoryServices;
 using KatmanliBurger_SERVICE.Services.GarnitureServices;
+using KatmanliBurger_SERVICE.Services.MenuByProductMappingServices;
 using KatmanliBurger_SERVICE.Services.MenuOrderMappingServices;
 using KatmanliBurger_SERVICE.Services.MenuServices;
 using KatmanliBurger_SERVICE.Services.OrderByProductMappingServices;
 using KatmanliBurger_SERVICE.Services.OrderServices;
 using KatmanliBurger_UI.Helpers;
 using Microsoft.AspNetCore.Identity;
+using System.Reflection;
 
 namespace KatmanliBurger_UI
 {
@@ -35,6 +38,7 @@ namespace KatmanliBurger_UI
 
 			// Add services to the container.
 			builder.Services.AddControllersWithViews();
+			builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 			builder.Services.AddDbContext<BurgerDbContext>();
 
@@ -67,6 +71,12 @@ namespace KatmanliBurger_UI
 			builder.Services.AddScoped<IBurgerOrderMappingDal, EfBurgerOrderMappingDal>();
 			builder.Services.AddScoped<IBurgerOrderMappingService, BurgerOrderMappingManager>();
 
+			builder.Services.AddScoped<IBurgerMenuMappingDal, EfBurgerMenuMappingDal>();
+			builder.Services.AddScoped<IBurgerMenuMappingService, BurgerMenuMappingManager>();
+
+			builder.Services.AddScoped<IMenuByProductMappingDal, EfMenuByProductMappingDal>();
+			builder.Services.AddScoped<IMenuByProductMappingService, MenuByProductMappingManager>();
+
 			builder.Services.AddScoped<IOrderByProductMappingDal, EfOrderByProductMappingDal>();
 			builder.Services.AddScoped<IOrderByProductMappingService, OrderByProductMappingManager>();
 
@@ -98,7 +108,7 @@ namespace KatmanliBurger_UI
 
 			app.MapControllerRoute(
 				name: "default",
-				pattern: "{controller=Home}/{action=Index}/{id?}");
+				pattern: "{controller=Default}/{action=Index}/{id?}");
 
 			app.Run();
 		}

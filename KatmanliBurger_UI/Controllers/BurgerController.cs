@@ -1,100 +1,123 @@
 ﻿using KatmanliBurger_DAL.Abstracts;
 using KatmanliBurger_DATA.Concretes;
 using KatmanliBurger_SERVICE.Services.BurgerServices;
+using KatmanliBurger_SERVICE.Services.GarnitureServices;
+using KatmanliBurger_UI.DTOs.BurgerViewDtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KatmanliBurger_UI.Controllers
 {
     public class BurgerController : Controller
     {
-        IBurgerService _burgerService;
-        IGarnitureDal _garnitureDal;
-        IBurgerGarnitureMappingDal _burgerGarnitureMappingDal;
+		IBurgerService _burgerService;
+		IGarnitureService _garnitureService;
+		IBurgerGarnitureMappingDal _burgerGarnitureMappingDal;
 
-        public BurgerController(IBurgerService burgerService, IGarnitureDal garnitureDal, IBurgerGarnitureMappingDal burgerGarnitureMappingDal)
-        {
-            _burgerService = burgerService;
-            _garnitureDal = garnitureDal;
-            _burgerGarnitureMappingDal = burgerGarnitureMappingDal;
-        }
+		public BurgerController(IBurgerService burgerService, IGarnitureService garnitureService, IBurgerGarnitureMappingDal burgerGarnitureMappingDal)
+		{
+			_burgerService = burgerService;
+			_garnitureService = garnitureService;
+			_burgerGarnitureMappingDal = burgerGarnitureMappingDal;
+		}
 
-        public IActionResult Index()
-        {
+		public IActionResult Index()
+		{
 
-            return View(Tuple.Create<Burger, IEnumerable<Garniture>>(new Burger(), _garnitureDal.GetAll()));
-        }
+			var burgers = _burgerService.GetAll();
+			return View(burgers);
+		}
 
-        [HttpPost]
-        public IActionResult Index([Bind(Prefix = "Item1")] Burger model, int[] SelectedGarnitures)
-        {
-         
-            _burgerService.Create(model);
+		public IActionResult CreateBurger()
+		{
+			var garnitures = _garnitureService.GetAll();
+			BurgerCreateDto model = new();
+			model.Garnitures = garnitures;
+			return View(model);
+		}
 
-            model.BurgerGarnitures = new List<BurgerGarnitureMapping>()
-            {
-                new BurgerGarnitureMapping()
-                {
-                    GarnitureId = SelectedGarnitures.First(),
-                    BurgerId=model.Id
-                },
-                 new BurgerGarnitureMapping()
-                {
-                    GarnitureId = SelectedGarnitures.Last(),
-                    BurgerId=model.Id
-                }
-            };
+		[HttpPost]
+		public IActionResult CreateBurger(BurgerCreateDto model, int[] selectedgarniture)
+		{
+			Burger burger = new()
+			{
+				Name = model.Name,
+				Description = model.Description,
+				Price = model.Price,
+				Image = model.Image
+			};
 
-            _burgerGarnitureMappingDal.Create(model.BurgerGarnitures);
+			_burgerService.Create(burger);
+			burger.BurgerGarnitures = new List<BurgerGarnitureMapping>();
+			foreach (var item in selectedgarniture)
+			{
 
-            return View();
-        }
+				burger.BurgerGarnitures.Add(new BurgerGarnitureMapping() { GarnitureId = item, BurgerId = burger.Id });
 
-           
-        public IActionResult Edit(int id)
-        {
-           var burger= _burgerService.GetById(id);
-           var mappings= _burgerGarnitureMappingDal.GetByBurgerId(id);
-         var garniture=  _garnitureDal.GetByIdList(mappings.Select(x => x.GarnitureId).ToList());
-            return View(Tuple.Create<Burger, IEnumerable<Garniture>,IEnumerable<Garniture>>(burger, garniture,_garnitureDal.GetAll()));
-        }
+			}
+			_burgerGarnitureMappingDal.Create(burger.BurgerGarnitures);
 
-        [HttpPost]
-        public IActionResult Edit([Bind(Prefix = "Item1")] Burger model, int[] SelectedGarnitures, int id)
-        {
-            var burger = _burgerService.GetById(id);
-            burger.Name = model.Name;
-            burger.Price= model.Price;
-            burger.Description = model.Description;
-            _burgerService.Update(burger);
+			return RedirectToAction("Index");
+		}
+		public IActionResult Edit(int id)
+		{
+			var burger = _burgerService.GetById(id);
+			burger.BurgerGarnitures = (ICollection<BurgerGarnitureMapping>)_burgerGarnitureMappingDal.GetByBurgerId(id);
+			BurgerUpdateDto dto = new BurgerUpdateDto()
+			{
+				Name = burger.Name,
+				Image = burger.Image,
+				Description = burger.Description,
+				Id = burger.Id,
+				Price = burger.Price,
+				Garnitures = burger.BurgerGarnitures
+			};
 
-            var mappings = _burgerGarnitureMappingDal.GetByBurgerId(id);
+			dto.AllGarnitures = _garnitureService.GetAll();
 
-            foreach (var item in mappings)
-            {
-                if (SelectedGarnitures.Any(x=>x==item.GarnitureId))
-                {
-                    //_burgerGarnitureMappingDal.Create(item);
-                }
-                //else
-                //{
-                //    _burgerGarnitureMappingDal.Delete(item);
-                //}
-            }
 
-            foreach (var item in SelectedGarnitures)
-            {
-                if (!mappings.Any(x => x.GarnitureId == item))
-                {
-                    _burgerGarnitureMappingDal.Create(new BurgerGarnitureMapping()
-                    {
-                        GarnitureId = item,
-                        BurgerId = id
-                    });
+			return View(dto);
+		}
 
-                }
-            }
-           
-            return View();
-        }
-    }
+		[HttpPost]
+		public IActionResult Edit(BurgerUpdateDto model, int[] selectedgarniture, int id)
+		{
+			var burger = _burgerService.GetById(id);
+			burger.Name = model.Name;
+			burger.Price = model.Price;
+			burger.Description = model.Description;
+			burger.Image = model.Image;
+			burger.BurgerGarnitures = (ICollection<BurgerGarnitureMapping>)model.Garnitures;
+			_burgerService.Update(burger);
+
+			var mappings = _burgerGarnitureMappingDal.GetByBurgerId(id);
+
+			foreach (var item in mappings)
+			{
+				if (!selectedgarniture.Any(x => x == item.GarnitureId))
+				{
+					_burgerGarnitureMappingDal.Delete(item);
+				}
+			}
+			foreach (var item in selectedgarniture)
+			{
+				if (!mappings.Any(x => x.GarnitureId == item))
+				{
+					_burgerGarnitureMappingDal.Create(new BurgerGarnitureMapping()
+					{
+						GarnitureId = item,
+						BurgerId = id
+					});
+
+				}
+			}
+			return RedirectToAction("Index");
+		}
+		public IActionResult Delete(int id)
+		{
+
+			_burgerService.UpdateStatus(id);
+			return RedirectToAction("Index");
+
+		}
+	}
 }

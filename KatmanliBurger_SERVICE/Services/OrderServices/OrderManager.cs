@@ -28,6 +28,16 @@ namespace KatmanliBurger_SERVICE.Services.OrderServices
 			return _orderDal.GetById(id);
 		}
 
+		public List<Order> OrderWithDetailList(List<Order> orders)
+		{
+			return _orderDal.OrderWithDetailList(orders);
+		}
+
+		public Order OrderWithDetails(int orderId)
+		{
+			return _orderDal.OrderWithDetails(orderId);
+		}
+
 		public void Update(Order entity)
 		{
 			entity.UpdatedDate = DateTime.Now;

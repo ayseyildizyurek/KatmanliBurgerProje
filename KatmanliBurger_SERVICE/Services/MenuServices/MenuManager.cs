@@ -40,7 +40,6 @@ namespace KatmanliBurger_SERVICE.Services.MenuServices
 			menu.Status=menu.Status == Status.Active ? Status.Passive : Status.Active;
 			menu.UpdatedDate = DateTime.Now;
 			_menuDal.Update(menu);
-
 		}
 	}
 }

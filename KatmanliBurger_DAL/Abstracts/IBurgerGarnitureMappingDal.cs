@@ -1,4 +1,5 @@
-﻿using KatmanliBurger_DATA.Concretes;
+﻿using KatmanliBurger_DAL.Abstracts.Base;
+using KatmanliBurger_DATA.Concretes;
 
 namespace KatmanliBurger_DAL.Abstracts
 {
@@ -8,7 +9,6 @@ namespace KatmanliBurger_DAL.Abstracts
         void Update(IEnumerable<BurgerGarnitureMapping> entities);
 
         IEnumerable<BurgerGarnitureMapping> GetByBurgerId(int id);
-        //void Delete(BurgerGarnitureMapping entity);
         void Delete(IEnumerable<BurgerGarnitureMapping> entities);
     }
 }

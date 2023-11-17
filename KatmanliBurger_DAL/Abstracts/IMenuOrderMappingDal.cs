@@ -1,4 +1,5 @@
-﻿using KatmanliBurger_DATA.Concretes;
+﻿using KatmanliBurger_DAL.Abstracts.Base;
+using KatmanliBurger_DATA.Concretes;
 using System.Linq.Expressions;
 
 namespace KatmanliBurger_DAL.Abstracts
@@ -10,7 +11,7 @@ namespace KatmanliBurger_DAL.Abstracts
 
 		IEnumerable<MenuOrderMapping> GetByOrderId(int id);
 		IEnumerable<MenuOrderMapping> GetByMenuId(int id);
-		//void Delete(BurgerGarnitureMapping entity);
+		
 		void Delete(IEnumerable<MenuOrderMapping> entities);
 		IEnumerable<MenuOrderMapping> GetAll(Expression<Func<MenuOrderMapping, bool>> expression = null);
 	}

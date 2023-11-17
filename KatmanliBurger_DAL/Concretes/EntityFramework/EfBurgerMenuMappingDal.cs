@@ -1,6 +1,7 @@
 ﻿using KatmanliBurger_DAL.Abstracts;
 using KatmanliBurger_DAL.Contexts;
 using KatmanliBurger_DATA.Concretes;
+using Microsoft.EntityFrameworkCore;
 
 namespace KatmanliBurger_DAL.Concretes.EntityFramework
 {
@@ -21,6 +22,15 @@ namespace KatmanliBurger_DAL.Concretes.EntityFramework
 			{
 				context.BurgerMenus.RemoveRange(entities);
 				context.SaveChanges();
+			}
+		}
+
+		public List<BurgerMenuMapping> GetBurgerNamesForMenu()
+		{
+			using (BurgerDbContext context = new BurgerDbContext())
+			{
+				var values = context.BurgerMenus.Include(x => x.Burger).ToList();
+				return values;
 			}
 		}
 

@@ -11,7 +11,6 @@ namespace KatmanliBurger_SERVICE.Services.BurgerOrderMappingServices
 		IEnumerable<BurgerOrderMapping> GetByBurgerId(int id);
 		IEnumerable<BurgerOrderMapping> GetByOrderId(int id);
 		IEnumerable<BurgerOrderMapping> GetAll(Expression<Func<BurgerOrderMapping, bool>> expression = null);
-		//void Delete(BurgerGarnitureMapping entity);
 		void Delete(IEnumerable<BurgerOrderMapping> entities);
 	}
 }

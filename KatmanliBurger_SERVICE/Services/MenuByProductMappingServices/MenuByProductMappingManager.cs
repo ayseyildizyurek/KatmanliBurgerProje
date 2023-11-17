@@ -40,6 +40,11 @@ namespace KatmanliBurger_SERVICE.Services.MenuByProductMappingServices
 			return _menuByProductMappingDal.GetByProductId(id);
 		}
 
+		public List<MenuByProductMapping> GetProductsForMenu()
+		{
+			return _menuByProductMappingDal.GetProductsForMenu();
+		}
+
 		public void Update(IEnumerable<MenuByProductMapping> entities)
 		{
 			foreach (var entity in entities)

@@ -10,7 +10,9 @@ using KatmanliBurger_SERVICE.Services.OrderByProductMappingServices;
 using KatmanliBurger_SERVICE.Services.OrderServices;
 using KatmanliBurger_UI.Helpers;
 using KatmanliBurger_UI.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.ContentModel;
 
 namespace KatmanliBurger_UI.Controllers
 {
@@ -25,8 +27,9 @@ namespace KatmanliBurger_UI.Controllers
 		private IBurgerOrderMappingService _burgerOrderMappingManager;
 		private IMenuOrderMappingService _menuOrderMappingManager;
 		private IOrderByProductMappingService _orderByProductMappingManager;
+		private readonly UserManager<AppUser> _userManager;
 
-		public BasketsController(IBasketService basketManager, IBasketSessionHelper basketSessionHelper, IByProductService byProductManager, IMenuService menuManager, IBurgerService burgerManager, IOrderService orderService, IBurgerOrderMappingService burgerOrderMappingManager, IMenuOrderMappingService menuOrderMappingManager, IOrderByProductMappingService orderByProductMappingManager)
+		public BasketsController(IBasketService basketManager, IBasketSessionHelper basketSessionHelper, IByProductService byProductManager, IMenuService menuManager, IBurgerService burgerManager, IOrderService orderService, IBurgerOrderMappingService burgerOrderMappingManager, IMenuOrderMappingService menuOrderMappingManager, IOrderByProductMappingService orderByProductMappingManager, UserManager<AppUser> userManager)
 		{
 			_basketManager = basketManager;
 			_basketSessionHelper = basketSessionHelper;
@@ -37,6 +40,7 @@ namespace KatmanliBurger_UI.Controllers
 			_burgerOrderMappingManager = burgerOrderMappingManager;
 			_menuOrderMappingManager = menuOrderMappingManager;
 			_orderByProductMappingManager = orderByProductMappingManager;
+			_userManager = userManager;
 		}
 
 		public IActionResult Index()
@@ -78,8 +82,17 @@ namespace KatmanliBurger_UI.Controllers
 
 		public IActionResult AddToOrder()
 		{
-			Order order = new Order() { UserId = "e768f722-5d9f-40dd-a8ed-a7e9a19d9238" };
-			_orderManager.Create(order);
+			OrderListViewModel model = new OrderListViewModel();
+			Order newOrder = new Order() { UserId = "e768f722-5d9f-40dd-a8ed-a7e9a19d9238" };
+			_orderManager.Create(newOrder);
+
+
+			
+
+
+
+			var order = _orderManager.GetById(newOrder.Id);
+
 			Basket basket = _basketSessionHelper.GetBasket("basket");
 
 			foreach (var item in basket.BasketLines)
@@ -94,8 +107,9 @@ namespace KatmanliBurger_UI.Controllers
 						OrderId=order.Id
 					   }
 					};
-
+					order.TotalPrice += item.BurgerQuantity * item.Burger.Price * 1.1m;
 					_burgerOrderMappingManager.Create(order.BurgerOrders);
+
 				}
 				if (item.Menu is not null)
 				{
@@ -107,7 +121,7 @@ namespace KatmanliBurger_UI.Controllers
 							OrderId=order.Id
 						}
 					};
-
+					order.TotalPrice += item.MenuQuantity * item.Menu.Price * 1.1m;
 					_menuOrderMappingManager.Create(order.MenuOrders);
 				}
 
@@ -121,12 +135,28 @@ namespace KatmanliBurger_UI.Controllers
 							OrderId = order.Id
 						}
 					};
+					order.TotalPrice += item.ByProductQuantity * item.ByProduct.Price * 1.1m;
 					_orderByProductMappingManager.Create(order.OrderByProducts);
 				}
 			}
 
-			return View();
+			_orderManager.Update(order);
+
+			model.OrderNo = order.Id;
+			model.TotalPrice = order.TotalPrice;
+			TempData["info"] = "Kapat";
+			return RedirectToAction("CompletedOrderList", model);
 		}
 
+		public async Task<IActionResult> CompletedOrderList(OrderListViewModel model)
+		{
+			_basketSessionHelper.Clear();
+			var order = _orderManager.GetById(model.OrderNo);
+			AppUser user = await _userManager.FindByIdAsync(order.UserId);
+			model.AppUser = user;
+			var orders=_orderManager.GetAll().Where(x=>x.UserId==model.AppUser.Id).ToList();
+			model.Orders= _orderManager.OrderWithDetailList(orders);
+			return View(model);
+		}
 	}
 }

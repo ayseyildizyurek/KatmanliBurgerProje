@@ -4,6 +4,7 @@ namespace KatmanliBurger_DATA.Concretes
 {
     public class Order:BaseEntity
     {
+        public decimal TotalPrice { get; set; }
         public string UserId { get; set; }
 
         //nav

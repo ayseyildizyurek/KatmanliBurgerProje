@@ -22,6 +22,11 @@ namespace KatmanliBurger_SERVICE.Services.BurgerMenuMappingServices
 			return _burgerMenuMappingDal.GetAll(expression);
 		}
 
+		public List<BurgerMenuMapping> GetBurgerNamesForMenu()
+		{
+			return _burgerMenuMappingDal.GetBurgerNamesForMenu();
+		}
+
 		public IEnumerable<BurgerMenuMapping> GetByBurgerId(int id)
 		{
 			return _burgerMenuMappingDal.GetByBurgerId(id);

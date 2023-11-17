@@ -1,4 +1,4 @@
-﻿@using KatmanliBurger_DATA.DomainModels;
+﻿
 
 @model BasketListViewModel
 @{
@@ -8,7 +8,6 @@
 	decimal basketTotalPriceWithTax = 0;
 	decimal tax = 0;
 	ICollection<BasketLine> liste = Model.Basket.BasketLines;
-	Model.Basket.TotalPrice = 0;
 }
 
 <!DOCTYPE html>
@@ -55,8 +54,6 @@
 
 							tax = basketTotalPrice / 100 * 10;
 							basketTotalPriceWithTax = basketTotalPrice + tax;
-
-							Model.Basket.TotalPrice = basketTotalPriceWithTax;
 						}
 						@foreach (var item in Model.Basket.BasketLines)
 						{
@@ -152,7 +149,7 @@
 <script>
 
 	$('#btnchecked').click(function () {
-	
+
 		var basketData = @liste;
 
 		$.ajax({

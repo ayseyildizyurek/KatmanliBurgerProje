@@ -1,8 +1,5 @@
 ﻿using KatmanliBurger_DAL.Abstracts;
-using KatmanliBurger_DAL.Concretes.EntityFramework;
-using KatmanliBurger_DAL.Contexts;
 using KatmanliBurger_DATA.Concretes;
-using KatmanliBurger_DATA.Enums;
 using System.Linq.Expressions;
 
 namespace KatmanliBurger_SERVICE.Services.BurgerGarnitureMappingServices

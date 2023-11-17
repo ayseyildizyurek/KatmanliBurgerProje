@@ -1,7 +1,7 @@
 ﻿using KatmanliBurger_DATA.Abstracts;
 using System.Linq.Expressions;
 
-namespace KatmanliBurger_DAL.Abstracts
+namespace KatmanliBurger_DAL.Abstracts.Base
 {
     public interface IBaseDal<T> where T : BaseEntity, new()
     {
