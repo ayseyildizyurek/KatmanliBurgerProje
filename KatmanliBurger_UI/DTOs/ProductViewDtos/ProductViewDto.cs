@@ -1,5 +1,4 @@
-﻿using KatmanliBurger_DATA.Concretes;
-using KatmanliBurger_DATA.Enums;
+﻿using KatmanliBurger_DATA.Enums;
 
 namespace KatmanliBurger_UI.DTOs.ProductViewDtos
 {
@@ -13,7 +12,5 @@ namespace KatmanliBurger_UI.DTOs.ProductViewDtos
 		public string CategoryName { get; set; }
 		public int Piece { get; set; } = 1;
 		public Size Size { get; set; } = Size.Medium;
-	
-		
 	}
 }

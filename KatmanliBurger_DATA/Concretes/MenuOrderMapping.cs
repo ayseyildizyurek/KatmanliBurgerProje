@@ -4,7 +4,6 @@ namespace KatmanliBurger_DATA.Concretes
 {
     public class MenuOrderMapping : BaseEntity
     {
-      
         public int MenuId { get; set; }
         public int OrderId { get; set; }
 

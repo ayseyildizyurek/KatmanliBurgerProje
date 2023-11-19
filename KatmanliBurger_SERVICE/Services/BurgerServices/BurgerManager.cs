@@ -42,11 +42,8 @@ namespace KatmanliBurger_SERVICE.Services.BurgerServices
 		public void UpdateStatus(int id)
 		{
 			var burger = _burgerDal.GetById(id);
-
 			burger.Status = burger.Status == Status.Active ? Status.Passive : Status.Active;
-
 			burger.UpdatedDate = DateTime.Now;
-
 			_burgerDal.Update(burger);
 		}
 	}

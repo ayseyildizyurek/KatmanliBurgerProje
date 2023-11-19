@@ -49,6 +49,7 @@ namespace KatmanliBurger_SERVICE.Services.BurgerMenuMappingServices
 			{
 				entity.UpdatedDate = DateTime.Now;
 			}
+
 			_burgerMenuMappingDal.Update(entities);
 		}
 	}

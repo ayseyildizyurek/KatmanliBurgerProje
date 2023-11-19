@@ -1,5 +1,4 @@
 ﻿using KatmanliBurger_DAL.Abstracts;
-using KatmanliBurger_DAL.Concretes.EntityFramework;
 using KatmanliBurger_DATA.Concretes;
 using KatmanliBurger_DATA.Enums;
 

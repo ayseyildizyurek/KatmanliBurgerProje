@@ -1,13 +1,7 @@
 ﻿using KatmanliBurger_DAL.Abstracts;
 using KatmanliBurger_DATA.Concretes;
 using KatmanliBurger_DATA.Enums;
-using KatmanliBurger_SERVICE.Services.BurgerGarnitureMappingServices;
-using KatmanliBurger_SERVICE.Services.BurgerMenuMappingServices;
-using KatmanliBurger_SERVICE.Services.BurgerServices;
-using KatmanliBurger_SERVICE.Services.ByProductServices;
 using KatmanliBurger_SERVICE.Services.DTOs;
-using KatmanliBurger_SERVICE.Services.GarnitureServices;
-using KatmanliBurger_SERVICE.Services.MenuByProductMappingServices;
 using Microsoft.EntityFrameworkCore;
 
 namespace KatmanliBurger_SERVICE.Services.MenuServices
@@ -62,7 +56,6 @@ namespace KatmanliBurger_SERVICE.Services.MenuServices
 			_menuDal.Update(menu);
 		}
 
-
 		public MenuDto GetMenu(int menuId)
 		{
 			var selectedMenu = _menuDal.GetById(menuId);
@@ -98,5 +91,59 @@ namespace KatmanliBurger_SERVICE.Services.MenuServices
 			return menuDto;
 		}
 
+		public void UpdateMenu(MenuDto dto, int menuId, int[] selectedburgers, int[] selectedcitilezzetler, int[] selectedicecekler, int[] selectedtatlilar)
+		{
+			var selectedMenu = _menuDal.GetById(menuId);
+			dto.Menu.Id = menuId;
+			selectedMenu = dto.Menu;
+			_menuDal.Update(selectedMenu);
+			var burgerMapping = _burgerMenuMappingDal.GetByMenuId(menuId);
+			int[] allProducts = selectedcitilezzetler.Concat(selectedicecekler).Concat(selectedtatlilar).ToArray();
+			var productMapping = _menuProductMappingDal.GetByMenuId(menuId);
+
+			foreach (var item in selectedburgers)
+			{
+				if (!burgerMapping.Any(x => x.BurgerId.Equals(item)))
+				{
+					BurgerMenuMapping burgerMenuMapping = new BurgerMenuMapping()
+					{
+						MenuId = menuId,
+						BurgerId = item
+					};
+
+					_burgerMenuMappingDal.Create(burgerMenuMapping);
+				}
+			}
+
+			foreach (var item in burgerMapping)
+			{
+				if (!selectedburgers.Contains(item.BurgerId))
+				{
+					_burgerMenuMappingDal.Delete(_burgerMenuMappingDal.GetAll().Where(x => x.Id == item.Id).ToList());
+				}
+			}
+
+			foreach (var item in allProducts)
+			{
+				if (!productMapping.Any(x => x.ByProductId.Equals(item)))
+				{
+					MenuByProductMapping productMenuMapping = new MenuByProductMapping()
+					{
+						MenuId = menuId,
+						ByProductId = item
+					};
+
+					_menuProductMappingDal.Create(productMenuMapping);
+				}
+			}
+
+			foreach (var item in productMapping)
+			{
+				if (!allProducts.Contains(item.ByProductId))
+				{
+					_menuProductMappingDal.Delete(_menuProductMappingDal.GetAll().Where(x => x.Id == item.Id).ToList());
+				}
+			}
+		}
 	}
 }

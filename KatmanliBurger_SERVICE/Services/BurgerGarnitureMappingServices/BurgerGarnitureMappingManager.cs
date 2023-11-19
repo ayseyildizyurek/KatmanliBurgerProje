@@ -16,7 +16,6 @@ namespace KatmanliBurger_SERVICE.Services.BurgerGarnitureMappingServices
 		public void Create(IEnumerable<BurgerGarnitureMapping> entities)
 		{
 			_burgerGarnitureMappingDal.Create(entities);
-			
 		}
 
 		public void Delete(IEnumerable<BurgerGarnitureMapping> entities)
@@ -45,6 +44,7 @@ namespace KatmanliBurger_SERVICE.Services.BurgerGarnitureMappingServices
 			{
 				entity.UpdatedDate = DateTime.Now;
 			}
+
 			_burgerGarnitureMappingDal.Update(entities);
 		}
 	}

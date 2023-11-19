@@ -30,13 +30,14 @@ namespace KatmanliBurger_UI.Controllers
 			if (ModelState.IsValid)
 			{
 				AppUser appUser = await _userManager.FindByEmailAsync(vm.Email);
+
 				if (appUser != null)
 				{
 					await _signInManager.SignOutAsync();
 					Microsoft.AspNetCore.Identity.SignInResult signInResult = await _signInManager.PasswordSignInAsync(appUser, vm.Password, false, false);
+
 					if (signInResult.Succeeded)
 					{
-
 						if (await _userManager.IsInRoleAsync(appUser, "Admin"))
 						{
 							return RedirectToAction("Index", "Category"); //Gideceği yer..
@@ -46,11 +47,12 @@ namespace KatmanliBurger_UI.Controllers
 							return RedirectToAction("Index", "Default"); //Gideceği yer..
 						}
 					}
+
 					ModelState.AddModelError("", "Wrong credantion information");
 				}
 			}
-			return View(vm);
 
+			return View(vm);
 		}
 	}
 }

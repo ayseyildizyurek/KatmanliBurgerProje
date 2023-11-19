@@ -1,11 +1,13 @@
 ﻿using KatmanliBurger_DATA.Concretes;
 using KatmanliBurger_UI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KatmanliBurger_UI.Controllers
 {
-    public class RoleController : Controller
+	//[Authorize(Roles = "Admin")]
+	public class RoleController : Controller
 	{
 		private readonly RoleManager<AppRole> _roleManager;
 		private readonly UserManager<AppUser> _userManager;
@@ -27,7 +29,7 @@ namespace KatmanliBurger_UI.Controllers
 			IdentityResult identityResult = await _roleManager.CreateAsync(new AppRole() { Name = roleView.Name });
 			if (identityResult.Succeeded)
 			{
-				return RedirectToAction(""); //Admin sayfasına gidecek
+				return RedirectToAction(""); 
 			}
 			return View();
 		}

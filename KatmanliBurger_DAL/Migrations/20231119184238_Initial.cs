@@ -88,6 +88,25 @@ namespace KatmanliBurger_DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CustomerMessages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CustomerName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CustomerPhone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CustomerEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Message = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Status = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CustomerMessages", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Garnitures",
                 columns: table => new
                 {
@@ -500,10 +519,23 @@ namespace KatmanliBurger_DAL.Migrations
                 columns: new[] { "Id", "CreatedDate", "Name", "Status", "UpdatedDate" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 11, 18, 21, 58, 46, 518, DateTimeKind.Local).AddTicks(5598), "İçecek", 1, null },
-                    { 2, new DateTime(2023, 11, 18, 21, 58, 46, 518, DateTimeKind.Local).AddTicks(5599), "Patates", 1, null },
-                    { 3, new DateTime(2023, 11, 18, 21, 58, 46, 518, DateTimeKind.Local).AddTicks(5601), "Tatlı", 1, null },
-                    { 4, new DateTime(2023, 11, 18, 21, 58, 46, 518, DateTimeKind.Local).AddTicks(5602), "Atıştırmalık", 1, null }
+                    { 1, new DateTime(2023, 11, 19, 21, 42, 38, 755, DateTimeKind.Local).AddTicks(5384), "İçecek", 1, null },
+                    { 2, new DateTime(2023, 11, 19, 21, 42, 38, 755, DateTimeKind.Local).AddTicks(5386), "Patates", 1, null },
+                    { 3, new DateTime(2023, 11, 19, 21, 42, 38, 755, DateTimeKind.Local).AddTicks(5387), "Tatlı", 1, null },
+                    { 4, new DateTime(2023, 11, 19, 21, 42, 38, 755, DateTimeKind.Local).AddTicks(5389), "Atıştırmalık", 1, null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "ParameterTypes",
+                columns: new[] { "Id", "CreatedDate", "Status", "TypeName", "UpdatedDate" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2023, 11, 19, 21, 42, 38, 755, DateTimeKind.Local).AddTicks(5656), 1, "About", null },
+                    { 2, new DateTime(2023, 11, 19, 21, 42, 38, 755, DateTimeKind.Local).AddTicks(5658), 1, "Contact", null },
+                    { 3, new DateTime(2023, 11, 19, 21, 42, 38, 755, DateTimeKind.Local).AddTicks(5659), 1, "General", null },
+                    { 4, new DateTime(2023, 11, 19, 21, 42, 38, 755, DateTimeKind.Local).AddTicks(5660), 1, "Exception", null },
+                    { 5, new DateTime(2023, 11, 19, 21, 42, 38, 755, DateTimeKind.Local).AddTicks(5672), 1, "UIMessagges", null },
+                    { 6, new DateTime(2023, 11, 19, 21, 42, 38, 755, DateTimeKind.Local).AddTicks(5673), 1, "AdminMessagges", null }
                 });
 
             migrationBuilder.CreateIndex(
@@ -646,6 +678,9 @@ namespace KatmanliBurger_DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "BurgerOrders");
+
+            migrationBuilder.DropTable(
+                name: "CustomerMessages");
 
             migrationBuilder.DropTable(
                 name: "MenuByProducts");

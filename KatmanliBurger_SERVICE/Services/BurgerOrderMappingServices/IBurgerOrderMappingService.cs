@@ -7,7 +7,6 @@ namespace KatmanliBurger_SERVICE.Services.BurgerOrderMappingServices
     {
 		void Create(IEnumerable<BurgerOrderMapping> entities);
 		void Update(IEnumerable<BurgerOrderMapping> entities);
-
 		IEnumerable<BurgerOrderMapping> GetByBurgerId(int id);
 		IEnumerable<BurgerOrderMapping> GetByOrderId(int id);
 		IEnumerable<BurgerOrderMapping> GetAll(Expression<Func<BurgerOrderMapping, bool>> expression = null);

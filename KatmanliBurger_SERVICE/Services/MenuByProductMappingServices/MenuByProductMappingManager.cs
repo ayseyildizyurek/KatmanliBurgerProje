@@ -1,6 +1,4 @@
-﻿
-using KatmanliBurger_DAL.Abstracts;
-using KatmanliBurger_DAL.Concretes.EntityFramework;
+﻿using KatmanliBurger_DAL.Abstracts;
 using KatmanliBurger_DATA.Concretes;
 using System.Linq.Expressions;
 
@@ -51,6 +49,7 @@ namespace KatmanliBurger_SERVICE.Services.MenuByProductMappingServices
 			{
 				entity.UpdatedDate = DateTime.Now;
 			}
+
 			_menuByProductMappingDal.Update(entities);
 		}
 	}

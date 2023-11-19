@@ -45,6 +45,7 @@ namespace KatmanliBurger_SERVICE.Services.MenuOrderMappingServices
 			{
 				entity.UpdatedDate = DateTime.Now;
 			}
+
 			_menuOrderMappingDal.Update(entities);
 		}
 	}

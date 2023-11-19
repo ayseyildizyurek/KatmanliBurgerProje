@@ -7,7 +7,6 @@ namespace KatmanliBurger_DATA.Concretes
         public string Name { get; set; }
 
         //nav
-
         public virtual ICollection<BurgerGarnitureMapping> BurgerGarnitures { get; set; }
     }
 }

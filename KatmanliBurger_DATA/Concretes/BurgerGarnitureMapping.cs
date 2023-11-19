@@ -8,7 +8,6 @@ namespace KatmanliBurger_DATA.Concretes
         public int GarnitureId { get; set; }
 
         //nav
-
         public virtual Burger Burger { get; set; }
         public virtual Garniture Garniture { get; set; }
     }

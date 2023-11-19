@@ -1,9 +1,11 @@
 ﻿using KatmanliBurger_SERVICE.Services.BurgerServices;
 using KatmanliBurger_SERVICE.Services.OrderServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KatmanliBurger_UI.Controllers
 {
+	[Authorize(Roles = "Admin")]
 	public class OrderController : Controller
 	{
 		private readonly IOrderService _orderService;
@@ -22,7 +24,6 @@ namespace KatmanliBurger_UI.Controllers
         {
             _orderService.UpdateStatus(id);
             return RedirectToAction("Index");
-
         }
 
 		public IActionResult Details(int id)

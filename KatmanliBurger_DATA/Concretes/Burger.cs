@@ -2,7 +2,7 @@
 
 namespace KatmanliBurger_DATA.Concretes
 {
-    public class Burger:BaseEntity
+	public class Burger:BaseEntity
     {
         public string Name { get; set; }
         public string? Description { get; set; }

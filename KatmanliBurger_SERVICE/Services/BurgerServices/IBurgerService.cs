@@ -10,6 +10,5 @@ namespace KatmanliBurger_SERVICE.Services.BurgerServices
         Burger GetById(int id);
 		IEnumerable<Burger> GetByIdList(List<int> ids);
 		IEnumerable<Burger> GetAll();
-        
     }
 }

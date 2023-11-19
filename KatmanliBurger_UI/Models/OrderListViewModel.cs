@@ -1,5 +1,4 @@
 ﻿using KatmanliBurger_DATA.Concretes;
-using KatmanliBurger_DATA.DomainModels;
 
 namespace KatmanliBurger_UI.Models
 {
