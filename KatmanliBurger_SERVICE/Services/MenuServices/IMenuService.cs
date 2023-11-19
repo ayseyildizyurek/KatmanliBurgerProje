@@ -1,4 +1,5 @@
 ﻿using KatmanliBurger_DATA.Concretes;
+using KatmanliBurger_SERVICE.Services.DTOs;
 
 namespace KatmanliBurger_SERVICE.Services.MenuServices
 {
@@ -9,5 +10,6 @@ namespace KatmanliBurger_SERVICE.Services.MenuServices
 		void UpdateStatus(int id);
 		Menu GetById(int id);
 		IEnumerable<Menu> GetAll();
+		MenuDto GetMenu(int menuId);
 	}
 }

@@ -43,11 +43,11 @@ namespace KatmanliBurger_UI.Controllers
 			var burgers = _burgerService.GetAll();
 			var products = _byProductService.GetAll();
 
-			var tatlilar = products.Where(x => x.CategoryId == 2).ToList();
+			var tatlilar = products.Where(x => x.CategoryId == 3).ToList();
 
-			var citirlar = products.Where(x => x.CategoryId == 4).ToList();
+			var citirlar = products.Where(x => x.CategoryId == 2).ToList();
 
-			var icecekler = products.Where(x => x.CategoryId == 3).ToList();
+			var icecekler = products.Where(x => x.CategoryId == 1).ToList();
 
 			MenuCreateDto model = new();
 			model.Burgers = (List<Burger>)burgers;
@@ -74,7 +74,6 @@ namespace KatmanliBurger_UI.Controllers
 				foreach (var burgerId in selectedburgers)
 				{
 					menu.BurgerMenus.Add(new BurgerMenuMapping() { BurgerId = burgerId, MenuId = menu.Id });
-
 
 				}
 				_burgerMenuMappingService.Create(menu.BurgerMenus);

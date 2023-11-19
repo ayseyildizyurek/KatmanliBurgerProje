@@ -45,9 +45,15 @@ namespace KatmanliBurger_UI.Controllers
 					IdentityResult identityResult = await _userManager.CreateAsync(appUser, model.Password);
 					if (identityResult.Succeeded)
 					{
-						//string userId = appUser.Id;
-						//string userRoleId = _userRole.Roles.FirstOrDefault(x => x.Name.Equals("user")).ToString();
-						await _userManager.AddToRoleAsync(appUser, "User");
+						if (appUser.Email == "admin@admin.com")
+						{
+							await _userManager.AddToRoleAsync(appUser, "Admin");
+						}
+                        else
+                        {
+                        await _userManager.AddToRoleAsync(appUser, "User");
+
+						}
 						return RedirectToAction("Index", "Login");
 					}
 					else
