@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KatmanliBurger_UI.Controllers
 {
-	[Authorize(Roles = "Admin")]
-	public class CustomerMessageController : Controller
+
+    public class CustomerMessageController : Controller
     {
         private readonly ICustomerMessageService _customerMessage;
 
@@ -16,11 +16,12 @@ namespace KatmanliBurger_UI.Controllers
             _customerMessage = customerMessage;
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             return View(_customerMessage.GetAll());
         }
-
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
             try
@@ -41,12 +42,12 @@ namespace KatmanliBurger_UI.Controllers
             try
             {
 				_customerMessage.Create(customerMessage);
-				return RedirectToAction("Index");
+				return RedirectToAction("Index", "Default");
 			}
             catch (Exception)
             {
 				TempData["exception"] = ErrorMessageProvider.GetErrorMessage("Kayit_Basarisiz");
-				return RedirectToAction("Index", "CustomerMessage");
+				return RedirectToAction("Index", "Default");
 			}
 		}
     }

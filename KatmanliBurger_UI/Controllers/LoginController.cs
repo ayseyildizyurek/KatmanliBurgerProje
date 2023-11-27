@@ -1,4 +1,5 @@
 ﻿using KatmanliBurger_DATA.Concretes;
+using KatmanliBurger_SERVICE.Services.BasketServices;
 using KatmanliBurger_UI.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,7 @@ namespace KatmanliBurger_UI.Controllers
 		private readonly UserManager<AppUser> _userManager;
 		private readonly SignInManager<AppUser> _signInManager;
 		private readonly IPasswordHasher<AppUser> _passwordHasher;
+	
 
 		public LoginController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IPasswordHasher<AppUser> passwordHasher)
 		{
@@ -34,7 +36,8 @@ namespace KatmanliBurger_UI.Controllers
 				if (appUser != null)
 				{
 					await _signInManager.SignOutAsync();
-					Microsoft.AspNetCore.Identity.SignInResult signInResult = await _signInManager.PasswordSignInAsync(appUser, vm.Password, false, false);
+                    
+                    Microsoft.AspNetCore.Identity.SignInResult signInResult = await _signInManager.PasswordSignInAsync(appUser, vm.Password, false, false);
 
 					if (signInResult.Succeeded)
 					{

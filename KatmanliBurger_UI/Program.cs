@@ -1,4 +1,3 @@
-using FluentValidation;
 using FluentValidation.AspNetCore;
 using KatmanliBurger_DAL.Abstracts;
 using KatmanliBurger_DAL.Concretes.EntityFramework;
@@ -19,16 +18,14 @@ using KatmanliBurger_SERVICE.Services.MenuServices;
 using KatmanliBurger_SERVICE.Services.OrderByProductMappingServices;
 using KatmanliBurger_SERVICE.Services.OrderServices;
 using KatmanliBurger_SERVICE.Services.ParameterServices;
-using KatmanliBurger_UI.DTOs.BurgerViewDtos;
 using KatmanliBurger_UI.Helpers;
-using KatmanliBurger_UI.ValidationRules.BurgerDtosValidations;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using System.Reflection;
 
 namespace KatmanliBurger_UI
 {
-	public class Program
+    public class Program
 	{
 		public static void Main(string[] args)
 		{
@@ -103,7 +100,7 @@ namespace KatmanliBurger_UI
 			builder.Services.AddScoped<IParameterService, ParameterManager>();
 			builder.Services.AddScoped<IParameterSessionHelper, ParameterSessionHelper>();
 
-			builder.Services.AddSession();
+			builder.Services.AddSession(options=>options.IdleTimeout=TimeSpan.FromMinutes(2));
 
 			builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
 			{

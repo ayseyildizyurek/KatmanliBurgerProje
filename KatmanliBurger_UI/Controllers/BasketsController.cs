@@ -44,9 +44,10 @@ namespace KatmanliBurger_UI.Controllers
 			_userManager = userManager;
 		}
 
-		public IActionResult Index()
+		public async Task<IActionResult> Index()
 		{
-			if (User.Identity.IsAuthenticated)
+       
+            if (User.Identity.IsAuthenticated)
 			{
 				TempData["message"] = " Logout";
 				TempData["adress"] = "/Default/Logout";
@@ -65,13 +66,16 @@ namespace KatmanliBurger_UI.Controllers
 			return View(model);
 		}
 
-		public IActionResult AddToBasket(int byProductId = default, int menuId = default, int burgerId = default, int menuQuantity = default, string allMenuDescription = default, float menuPrice = default)
+		public async Task<IActionResult> AddToBasket(int byProductId = default, int menuId = default, int burgerId = default, int menuQuantity = default, string allMenuDescription = default, float menuPrice = default)
 		{
-			ByProduct product = _byProductManager.GetById(byProductId);
+            AppUser user = await _userManager.FindByIdAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            ByProduct product = _byProductManager.GetById(byProductId);
 			Menu menu = _menuManager.GetById(menuId);
 			Burger burger = _burgerManager.GetById(burgerId);
 			var basket = _basketSessionHelper.GetBasket("basket");
 			_basketManager.AddToBasket(basket, product, menu, burger);
+
+			if(user!=null) basket.UserId = user.Id;
 
 			if (menuId != default && (menuQuantity != default || allMenuDescription != default || menuPrice != default))
 			{
@@ -125,7 +129,8 @@ namespace KatmanliBurger_UI.Controllers
 
 		public IActionResult RemoveFromBasket(int byProductId = default, int menuId = default, int burgerId = default, int removeAll = default)
 		{
-			var basket = _basketSessionHelper.GetBasket("basket");
+            
+            var basket = _basketSessionHelper.GetBasket("basket");
 			_basketManager.RemoveFromBasket(basket, byProductId, menuId, burgerId, removeAll);
 			_basketSessionHelper.SetBasket("basket", basket);
 
@@ -136,9 +141,9 @@ namespace KatmanliBurger_UI.Controllers
 		{
 			try
 			{
-				Basket basket = _basketSessionHelper.GetBasket("basket");
+                AppUser user = await _userManager.FindByIdAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                Basket basket = _basketSessionHelper.GetBasket("basket");
 				OrderListViewModel model = new OrderListViewModel();
-				AppUser user = await _userManager.FindByIdAsync(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
 				if (user != null)
 				{

@@ -59,6 +59,7 @@
 							tax = basketTotalPrice / 100 * 10;
 							basketTotalPriceWithTax = basketTotalPrice + tax;
 						}
+						
 						@foreach (var item in Model.Basket.BasketLines)
 						{
 							if (item.Burger is not null)
@@ -345,7 +346,7 @@
 		}
 	});
 </script>
-
+@*
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 	@if (TempData["exception"] != null)
@@ -360,4 +361,4 @@
 			Swal.fire("@TempData["hata"]");
 		</text>
 	}
-</script>
+</script>*@

@@ -11,22 +11,23 @@
                 <div class="form_container">
                     <form asp-action="Create" asp-controller="CustomerMessage" method="post">
                         <div>
-                            <input asp-for="CustomerName" type="text" class="form-control" placeholder="Ad" />
+                            <input asp-for="CustomerName" type="text" class="form-control" placeholder="Ad" id="inputId1" />
                         </div>
                         <div>
-                            <input asp-for="CustomerPhone" type="text" class="form-control" placeholder="Telefon Numarası" />
+                            <input asp-for="CustomerPhone" type="text" class="form-control" placeholder="Telefon Numarası" id="inputId2" />
                         </div>
                         <div>
-                            <input asp-for="CustomerEmail"  type="email" class="form-control" placeholder="E-posta" />
+                            <input asp-for="CustomerEmail" type="email" class="form-control" placeholder="E-posta" id="inputId3" />
                         </div>
                         <div>
-                            <textarea asp-for="Message"  class="form-control" style="height:150px" placeholder="Mesajınız"></textarea>
+                            <textarea asp-for="Message" class="form-control" style="height:150px" placeholder="Mesajınız" id="inputId4"></textarea>
                         </div>
                         <div class="btn_box">
-                            <button type="submit" >
+                            <button type="submit" id="submitButton">
                                 Gönder
                             </button>
                         </div>
+
                     </form>
                 </div>
             </div>
@@ -38,3 +39,27 @@
         </div>
     </div>
 </section>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("submitButton").addEventListener("click", function (event) {
+            event.preventDefault();
+
+            Swal.fire({
+                title: "Başarılı!",
+                text: "Gönderiniz İletildi",
+                icon: "success"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById("inputId1").value = "";
+                    document.getElementById("inputId2").value = "";
+                    document.getElementById("inputId3").value = "";
+                    document.getElementById("inputId4").value = "";
+                }
+            });
+        });
+    });
+
+</script>
